@@ -276,6 +276,16 @@ def test_session_tracks_modification() -> None:
     session.pop("missing", None)
     assert not session.modified
 
+    # popitem
+    session = Session({"a": "1"})
+    session.popitem()
+    assert session.modified
+
+    # __ior__
+    session = Session({"a": "1"})
+    session |= {"b": "2"}
+    assert session.modified
+
     # setdefault with missing key
     session = Session({"a": "1"})
     session.setdefault("b", "2")
